@@ -218,7 +218,7 @@ def redo():
                 articles.append(str(article["title"])+" - "+str(response.shortened_url))
                 
             else:
-                articles.append(str(article["title"])+" - "+str(("Error ",response.code," : This URL Wouldn't Shorten :",url)))       
+                articles.append(str(article["title"])+" - "+"Error "+str(response.code)+" : This URL Wouldn't Shorten")       
 
         geohack = ("""https://geohack.toolforge.org/geohack.php?params="""+decdeg2dms(lattitude)[0]+"""_"""+decdeg2dms(lattitude)[1]+"""_"""+decdeg2dms(lattitude)[2]+"""_N_"""+decdeg2dms(longitude)[0]+"""_"""+decdeg2dms(longitude)[1]+"""_"""+decdeg2dms(longitude)[2]+"""_E""")
         shortgeohack = shortener.shorten(geohack).shortened_url
