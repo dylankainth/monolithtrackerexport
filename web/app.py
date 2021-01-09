@@ -123,173 +123,177 @@ def redo():
 
     for number in range(0,len(data)):
         name = data[number]["title"][0]["value"]
-        #print("["+str(number)+"/"+str(len(data))+"]"+"-"+str(name))
-        image = data[number]["field_monolith_image"][0]["url"]
-        monolithurl = "https://monolithtracker.com/node/"+str(data[number]["nid"][0]["value"])
-        monolithshorturl = str(shortener.shorten(monolithurl).shortened_url)
+	#print("["+str(number)+"/"+str(len(data))+"]"+"-"+str(name))
+	image = data[number]["field_monolith_image"][0]["url"]
+	monolithurl = "https://monolithtracker.com/node/"+str(data[number]["nid"][0]["value"])+"?mtm_campaign=exportpdf"
+	monolithshorturl = str(shortener.shorten(monolithurl+"&mtm_kwd=short-url").shortened_url)
+	monolithshorturlqr = str(shortener.shorten(monolithurl+"&mtm_kwd=qr").shortened_url)
 
-        if len(data[number]["field_location_accuracy"]) == 1:
-            accuracy = data[number]["field_location_accuracy"][0]["value"]
-        else:
-            accuracy = "No Data"
+	if len(data[number]["field_location_accuracy"]) == 1:
+	accuracy = data[number]["field_location_accuracy"][0]["value"]
+	else:
+	accuracy = "No Data"
 
-        if len(data[number]["field_spotted_date"]) == 1:
-            spotteddate = data[number]["field_spotted_date"][0]["value"]
-        else:
-            spotteddate = "No Data"
+	if len(data[number]["field_spotted_date"]) == 1:
+	spotteddate = data[number]["field_spotted_date"][0]["value"]
+	else:
+	spotteddate = "No Data"
 
-        if len(data[number]["field_disappearance_date"]) == 1:
-            gonedate = data[number]["field_disappearance_date"][0]["value"]
-        else:
-            gonedate = "Hasn't Disappeared Yet"
+	if len(data[number]["field_disappearance_date"]) == 1:
+	gonedate = data[number]["field_disappearance_date"][0]["value"]
+	else:
+	gonedate = "Hasn't Disappeared Yet"
 
-        if len(data[number]["field_monolith_classification"]) == 1:
-            classification = data[number]["field_monolith_classification"][0]["value"]
-        else:
-            classification = "No Data"
+	if len(data[number]["field_monolith_classification"]) == 1:
+	classification = data[number]["field_monolith_classification"][0]["value"]
+	else:
+	classification = "No Data"
 
-        if len(data[number]["field_material"]) == 1:
-            material = data[number]["field_material"][0]["value"]
-        else:
-            material = "No Data"
+	if len(data[number]["field_material"]) == 1:
+	material = data[number]["field_material"][0]["value"]
+	else:
+	material = "No Data"
 
-        if len(data[number]["field_height"]) == 1:
-            height = data[number]["field_height"][0]["value"]
-        else:
-            height = "No Data"
+	if len(data[number]["field_height"]) == 1:
+	height = data[number]["field_height"][0]["value"]
+	else:
+	height = "No Data"
 
-        if len(data[number]["body"]) == 1:
-            body = data[number]["body"][0]["value"]
-        else:
-            body = ("No Data")
+	if len(data[number]["body"]) == 1:
+	body = data[number]["body"][0]["value"]
+	else:
+	body = ("No Data")
 
-        if len(data[number]["field_texture"]) >= 1:
-            textures=[]
-            for texture in data[number]["field_texture"]:
-                textures.append(texture["value"])
-            texture = " / ".join(textures)
-        else:
-            texture = ("No Data")
+	if len(data[number]["field_texture"]) > 1:
+	textures=[]
+	for texture in data[number]["field_texture"]:
+	textures.append(texture["value"])
+	textures = " / ".join(textures)
+	else:
+	texture = ("No Data")
 
-        if len(data[number]["field_top_geometry"]) >= 1:
-            top_geometry=[]
-            for geometry in data[number]["field_top_geometry"]:
-                top_geometry.append(geometry["value"])
-            top_geometry = " / ".join(top_geometry)
-        else:
-            top_geometry = ("No Data")
-        
-        if len(data[number]["field_construction"]) >= 1:
-            constructions=[]
-            for construction in data[number]["field_construction"]:
-                constructions.append(construction["value"])
-            construction = " / ".join(constructions)
-        else:
-            construction = ("No Data")
+	if len(data[number]["field_top_geometry"]) > 1:
+	top_geometry=[]
+	for geometry in data[number]["field_top_geometry"]:
+	top_geometry.append(geometry["value"])
+	top_geometry = " / ".join(top_geometry)
+	else:
+	top_geometry = ("No Data")
 
-        if len(data[number]["field_notes"]) == 1:
-            notes = (data[number]["field_notes"][0]["value"])
-        else:
-            notes = ("No Notes have been written.")
+	if len(data[number]["field_construction"]) > 1:
+	constructions=[]
+	for construction in data[number]["field_construction"]:
+	constructions.append(construction["value"])
+	construction = " / ".join(constructions)
+	else:
+	construction = ("No Data")
 
-        if len(data[number]["field_text_symbols"]) >= 1:
-            symbols=[]
-            for symbol in data[number]["field_text_symbols"]:
-                symbols.append(symbol["value"])
-            text_symbols = " / ".join(symbols)
-        else:
-            text_symbols = ("No Data")
+	if len(data[number]["field_notes"]) == 1:
+	notes = (data[number]["field_notes"][0]["value"])
+	else:
+	notes = ("No Notes have been written.")
 
-        latlon = (data[number]["field_location"][0]["latlon"])
-        lattitude = (data[number]["field_location"][0]["lat"])
-        longitude = (data[number]["field_location"][0]["lon"])
+	if len(data[number]["field_text_symbols"]) == 1:
+	text_symbols = (data[number]["field_text_symbols"][0]["value"])
 
-        articles = []
-        for article in data[number]["field_articles_media"]:
-            url = urlparse(str(article["uri"])).geturl()
-            
-            response = shortener.shorten(url)
-            
-            if (response.code) == 7:
-                articles.append(str(article["title"])+" - "+str(response.shortened_url))
-                
-            else:
-                articles.append(str(article["title"])+" - "+"URL Error "+str(response.code))       
+	if len(data[number]["field_text_symbols"]) > 1:
+	symbols=[]
+	for symbol in data[number]["field_text_symbols"]:
+	symbols.append(symbol["value"])
+	text_symbols = " / ".join(symbols)
+	else:
+	text_symbols = ("No Data")
 
-        geohack = ("""https://geohack.toolforge.org/geohack.php?params="""+decdeg2dms(lattitude)[0]+"""_"""+decdeg2dms(lattitude)[1]+"""_"""+decdeg2dms(lattitude)[2]+"""_N_"""+decdeg2dms(longitude)[0]+"""_"""+decdeg2dms(longitude)[1]+"""_"""+decdeg2dms(longitude)[2]+"""_E""")
-        shortgeohack = shortener.shorten(geohack).shortened_url
+	latlon = (data[number]["field_location"][0]["latlon"])
+	lattitude = (data[number]["field_location"][0]["lat"])
+	longitude = (data[number]["field_location"][0]["lon"])
 
-        content =           """
-                                        <div class="main">
-                                        <hr>
-                                        <h2>"""+str(name)+"""</h2>
+	articles = []
+	for article in data[number]["field_articles_media"]:
+	url = urlparse(str(article["uri"])).geturl()
 
-                                        <br>
+	response = shortener.shorten(url)
 
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <img src=\""""+str(image)+"""\" style="object-fit:cover;width:100%;height:470px">
-                                                </div>
-                                                <div class="col-4">
-                                                    <h6><b>Spotted</b>&nbsp """+str(spotteddate)+"""</h6>
-                                                    <h6><b>Disappeared</b>&nbsp """+str(gonedate)+""" </h6>
-                                                    <hr>
-                                                    <h6><b>Classification</b>&nbsp """+str(classification)+"""</h6>
-                                                    <hr>
-                                                    <h6><b>Material</b>&nbsp """+str(material)+"""</h6>
-                                                    <h6><b>Height</b>&nbsp """+str(height)+"""</h6>
-                                                    <h6><b>Texture</b>&nbsp """+str(texture)+"""</h6>
-                                                    <h6><b>Top Geometry</b>&nbsp """+str(top_geometry)+"""</h6>
-                                                    <h6><b>Construction</b>&nbsp """+str(construction)+"""</h6>
-                                                    <h6><b>Text Symbols</b>&nbsp """+str(text_symbols)+"""</h6>
-                                                    <hr>
-                                                    <h6><b>Lattitude</b>&nbsp """+str(lattitude)+"""</h6>
-                                                    <h6><b>Longitude</b>&nbsp """+str(longitude)+"""</h6>
-                                                    <h6><b>Accuracy</b>&nbsp """+str(accuracy)+"""</h6>
-                                                    <hr>
-                                                    <h6><b>URL</b>&nbsp """+str(monolithshorturl)+"""</h6>
+	if (response.code) == 7:
+	articles.append(str(article["title"])+" - "+str(response.shortened_url))
 
-                                                </div>
-                                            </div>
-                                        </div>
+	else:
+	articles.append(str(article["title"])+" - "+str(("Error ",response.code," : This URL Wouldn't Shorten :",url)))       
 
-                                        <br>
-                                        
-                                        <h5>Body</h5>
-                                        <p>"""+str(body)+"""</p>
+	geohack = ("""https://geohack.toolforge.org/geohack.php?params="""+decdeg2dms(lattitude)[0]+"""_"""+decdeg2dms(lattitude)[1]+"""_"""+decdeg2dms(lattitude)[2]+"""_N_"""+decdeg2dms(longitude)[0]+"""_"""+decdeg2dms(longitude)[1]+"""_"""+decdeg2dms(longitude)[2]+"""_E""")
+	shortgeohack = shortener.shorten(geohack).shortened_url
+
+	content =           """
+			<div class="main">
+			  <hr>
+			  <h2>"""+str(name)+"""</h2>
+
+			  <br>
+
+			  <div class="container">
+			      <div class="row">
+				  <div class="col-8">
+				      <img src=\""""+str(image)+"""\" style="object-fit:cover;width:100%;height:470px">
+				  </div>
+				  <div class="col-4">
+				      <h6><b>Spotted</b>&nbsp """+str(spotteddate)+"""</h6>
+				      <h6><b>Disappeared</b>&nbsp """+str(gonedate)+""" </h6>
+				      <hr>
+				      <h6><b>Classification</b>&nbsp """+str(classification)+"""</h6>
+				      <hr>
+				      <h6><b>Material</b>&nbsp """+str(material)+"""</h6>
+				      <h6><b>Height</b>&nbsp """+str(height)+"""</h6>
+				      <h6><b>Texture</b>&nbsp """+str(texture)+"""</h6>
+				      <h6><b>Top Geometry</b>&nbsp """+str(top_geometry)+"""</h6>
+				      <h6><b>Construction</b>&nbsp """+str(construction)+"""</h6>
+				      <h6><b>Text Symbols</b>&nbsp """+str(text_symbols)+"""</h6>
+				      <hr>
+				      <h6><b>Lattitude</b>&nbsp """+str(lattitude)+"""</h6>
+				      <h6><b>Longitude</b>&nbsp """+str(longitude)+"""</h6>
+				      <h6><b>Accuracy</b>&nbsp """+str(accuracy)+"""</h6>
+				      <hr>
+				      <h6><b>URL</b>&nbsp """+str(monolithshorturl)+"""</h6>
+
+				  </div>
+			      </div>
+			  </div>
+
+			  <br>
+
+			  <h5>Body</h5>
+			  <p>"""+str(body)+"""</p>
 
 
-                                        <h5>Notes</h5>
-                                        <p><i>"""+str(notes)+"""</i></p>
+			  <h5>Notes</h5>
+			  <p><i>"""+str(notes)+"""</i></p>
 
 
-                                        <h5>Articles</h5>
-                                        <p>
-                                            """+str(' <br> '.join(articles))+"""
-                                        </p>
+			  <h5>Articles</h5>
+			  <p>
+			      """+str(' <br> '.join(articles))+"""
+			  </p>
 
-                                        <h5>Map</h5>
-                                        <br>
-                                        
-                                        
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <img width=100% style="object-fit:contain;margin-bottom: 10px;" src="https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s-l+000("""+str(longitude)+""","""+str(lattitude)+""")/"""+str(longitude)+""","""+str(lattitude)+""",3/1000x600?access_token=pk.eyJ1IjoiZHlsYW5rMTIzIiwiYSI6ImNrajUwMm55NzV0NWwyc2xiNzk0OHFjdXoifQ.cIzWvi9HlI1YfhpY24KbTA" >
-                                                </div>
-                                                <div class="col-4">
-                                                    <p>Geohack:</p>
-                                                    <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data="""+shortgeohack+"""&size=200x200">
-                                                    <hr>
-                                                    <p>Monolith Tracker:</p>
-                                                    <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data="""+monolithshorturl+"""&size=200x200">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p style="page-break-before: always">
-                                    """
+			  <h5>Map</h5>
+			  <br>
+
+
+			  <div class="container">
+			      <div class="row">
+				  <div class="col-8">
+				      <img width=100% style="object-fit:contain;margin-bottom: 10px;" src="https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s-l+000("""+str(longitude)+""","""+str(lattitude)+""")/"""+str(longitude)+""","""+str(lattitude)+""",3/1000x600?access_token=pk.eyJ1IjoiZHlsYW5rMTIzIiwiYSI6ImNrajUwMm55NzV0NWwyc2xiNzk0OHFjdXoifQ.cIzWvi9HlI1YfhpY24KbTA" >
+				  </div>
+				  <div class="col-4">
+				      <p>Geohack:</p>
+				      <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data="""+shortgeohack+"""&size=200x200">
+				      <hr>
+				      <p>Monolith Tracker:</p>
+				      <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data="""+monolithshorturlqr+"""&size=200x200">
+				  </div>
+			      </div>
+			  </div>
+		      </div>
+		    <p style="page-break-before: always">
+		      """
 
         f.write(content)
 
