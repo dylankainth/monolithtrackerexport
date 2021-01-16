@@ -129,11 +129,10 @@ def redo():
             </div>
 
         <hr>
-
-        <img src="https://licensebuttons.net/l/by/4.0/80x15.png">
-        <p>Written work is licensed under a Creative Commons Attribution 4.0 International License.</p>
-
-        
+	
+	<img src="https://licensebuttons.net/l/by/4.0/80x15.png">	        <div class="row">
+                                    <p>Written work is licensed under a Creative Commons Attribution 4.0 International License.<br>"""+('Timestamp: {:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now()))+"""GMT</p>	            <div class="col-sm-6">
+                        
         
         
     </div>
