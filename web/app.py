@@ -22,6 +22,9 @@ def redo():
     response = requests.get('https://monolithtracker.com/json-export')
     data = response.json()
 
+    response = requests.get('https://monolithtracker.com/json-export-scaled-images')
+    imagedata = response.json()
+
     shortener = Cuttpy("18bd1d3e0bbe131f91f5c5e1d38cb47927ba5")
 
     f = open("templates/output.html","w", encoding="utf8")
@@ -146,7 +149,12 @@ def redo():
     for number in range(0,len(data)):
         name = data[number]["title"][0]["value"]
         #print("["+str(number)+"/"+str(len(data))+"]"+"-"+str(name))
-        image = data[number]["field_monolith_image"][0]["url"]
+	# ^ This line prints each monolith's name and progress through the program, so it's a nice little status checker
+	
+	
+        image = ("https://www.monolithtracker.com"+imagedata[number]["600x400"].split(",")[0])
+    	# image = data[number]["field_monolith_image"][0]["url"] <-- This is legacy imaging
+	
         monolithurl = "https://monolithtracker.com/node/"+str(data[number]["nid"][0]["value"])+"?mtm_campaign=exportpdf"
         monolithshorturl = str(shortener.shorten(monolithurl+"&mtm_kwd=short-url").shortened_url)
         monolithshorturlqr = str(shortener.shorten(monolithurl+"&mtm_kwd=qr").shortened_url)
