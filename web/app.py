@@ -157,9 +157,6 @@ def redo():
                         "shortgeohack"  : str(shortgeohack)
                     })
 
-        t1 = round(time.time() - t0,2)
-        print("          packaging: ", t1)                
-
     global lendata
     lendata = str(len(data))
 
