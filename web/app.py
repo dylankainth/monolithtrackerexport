@@ -28,8 +28,6 @@ def redo():
 
     for number in range(0,len(data)):
 
-        t0= time.time()
-
         name = data[number]["title"][0]["value"]
         print("["+str(number)+"/"+str(len(data))+"]"+"-"+str(name))
 	      # ^ This line prints each monolith's name and progress through the program, so it's a nice little status checker
@@ -37,17 +35,9 @@ def redo():
         image = ("https://www.monolithtracker.com"+imagedata[number]["600x400"].split(",")[0])
     	  # image = data[number]["field_monolith_image"][0]["url"] <-- This is legacy imaging
 
-        t1 = round(time.time() - t0,2)
-        print("          Name/Image: ", t1)
-        t0= time.time()
-
         monolithurl = "https://monolithtracker.com/node/"+str(data[number]["nid"][0]["value"])+"?mtm_campaign=exportpdf"
         monolithshorturl = str(shortener.shorten(monolithurl+"&mtm_kwd=short-url").shortened_url)
         monolithshorturlqr = str(shortener.shorten(monolithurl+"&mtm_kwd=qr").shortened_url)
-
-        t1 = round(time.time() - t0,2)
-        print("          urls: ", t1)
-        t0= time.time()
 
         if len(data[number]["field_location_accuracy"]) == 1:
             accuracy = data[number]["field_location_accuracy"][0]["value"]
@@ -84,10 +74,6 @@ def redo():
         else:
             body = ("No Data")
 
-        t1 = round(time.time() - t0,2)
-        print("          location/spotted/dissapeared/class/material/height/body: ", t1)
-        t0= time.time()
-
         if len(data[number]["field_texture"]) > 1:
             textures=[]
             for texture in data[number]["field_texture"]:
@@ -95,10 +81,6 @@ def redo():
             textures = " / ".join(textures)
         else:
             texture = ("No Data")
-        
-        t1 = round(time.time() - t0,2)
-        print("          textures: ", t1)
-        t0= time.time()
 
         if len(data[number]["field_top_geometry"]) > 1:
             top_geometry=[]
@@ -108,10 +90,6 @@ def redo():
         else:
             top_geometry = ("No Data")
 
-        t1 = round(time.time() - t0,2)
-        print("          topgeo : topgeo", t1)
-        t0= time.time()
-
         if len(data[number]["field_construction"]) > 1:
             constructions=[]
             for construction in data[number]["field_construction"]:
@@ -120,18 +98,10 @@ def redo():
         else:
             construction = ("No Data")
 
-        t1 = round(time.time() - t0,2)
-        print("          constr: ", t1)
-        t0= time.time()
-
         if len(data[number]["field_notes"]) == 1:
             notes = (data[number]["field_notes"][0]["value"])
         else:
             notes = ("No Notes have been written.")
-        
-        t1 = round(time.time() - t0,2)
-        print("          notes: ", t1)
-        t0= time.time()
 
         if len(data[number]["field_text_symbols"]) == 1:
             text_symbols = (data[number]["field_text_symbols"][0]["value"])
@@ -143,10 +113,6 @@ def redo():
                 text_symbols = " / ".join(symbols)
         else:
             text_symbols = ("No Data")
-        
-        t1 = round(time.time() - t0,2)
-        print("          text-symbols: ", t1)
-        t0= time.time()
 
         latlon = (data[number]["field_location"][0]["latlon"])
         lattitude = (data[number]["field_location"][0]["lat"])
@@ -165,17 +131,9 @@ def redo():
                 articles.append(str(article["title"])+" - "+"Error "+str(response.code)+" : This URL Wouldn't Shorten") 
         
         print(articles)
-
-        t1 = round(time.time() - t0,2)
-        print("          articles: ", t1)
-        t0= time.time()      
-
+        
         geohack = ("""https://geohack.toolforge.org/geohack.php?params="""+decdeg2dms(lattitude)[0]+"""_"""+decdeg2dms(lattitude)[1]+"""_"""+decdeg2dms(lattitude)[2]+"""_N_"""+decdeg2dms(longitude)[0]+"""_"""+decdeg2dms(longitude)[1]+"""_"""+decdeg2dms(longitude)[2]+"""_E""")
         shortgeohack = shortener.shorten(geohack).shortened_url
-
-        t1 = round(time.time() - t0,2)
-        print("          coords: ", t1)
-        t0= time.time()
 
         content.append({"name" : str(name),
                         "image" : str(image),
