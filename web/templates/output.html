@@ -43,7 +43,7 @@
             <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Currently</h5>
-                <p class="card-text"><b>This document contains """+str(len(data))+""" Monoliths!</b></p>
+                <p class="card-text"><b>This document contains {{lendata}} Monoliths!</b></p>
             </div>
             </div>
         </div>
@@ -103,40 +103,41 @@
     <hr>
 
 <img src="https://licensebuttons.net/l/by/4.0/80x15.png"><div class="row">
-    <p>Written work is licensed under a Creative Commons Attribution 4.0 International License.<br>"""+('Timestamp: {:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now()))+"""GMT</p>	            <div class="col-sm-6">  
+    <p>Written work is licensed under a Creative Commons Attribution 4.0 International License.<br>{{timestamp}}GMT</p>	            <div class="col-sm-6">  
 </div>
 
 <p style="page-break-before: always">
 
+    {% for monolith in content: %}
     <div class="main">
         <hr>
-        <h2>"""+str(name)+"""</h2>
+        <h2>{{monolith["name"]}}</h2>
 
         <br>
 
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <img src=\""""+str(image)+"""\" style="object-fit:cover;width:100%;height:470px">
+                    <img src="{{monolith["image"]}}" style="object-fit:cover;width:100%;height:470px">
                 </div>
                 <div class="col-4">
-                    <h6><b>Spotted</b>&nbsp """+str(spotteddate)+"""</h6>
-                    <h6><b>Disappeared</b>&nbsp """+str(gonedate)+""" </h6>
+                    <h6><b>Spotted</b>&nbsp {{monolith["spotteddate"]}}</h6>
+                    <h6><b>Disappeared</b>&nbsp {{monolith["gonedate"]}} </h6>
                     <hr>
-                    <h6><b>Classification</b>&nbsp """+str(classification)+"""</h6>
+                    <h6><b>Classification</b>&nbsp {{monolith["classification"]}}</h6>
                     <hr>
-                    <h6><b>Material</b>&nbsp """+str(material)+"""</h6>
-                    <h6><b>Height</b>&nbsp """+str(height)+"""</h6>
-                    <h6><b>Texture</b>&nbsp """+str(texture)+"""</h6>
-                    <h6><b>Top Geometry</b>&nbsp """+str(top_geometry)+"""</h6>
-                    <h6><b>Construction</b>&nbsp """+str(construction)+"""</h6>
-                    <h6><b>Text Symbols</b>&nbsp """+str(text_symbols)+"""</h6>
+                    <h6><b>Material</b>&nbsp {{monolith["material"]}}</h6>
+                    <h6><b>Height</b>&nbsp {{monolith["height"]}}</h6>
+                    <h6><b>Texture</b>&nbsp {{monolith["texture"]}}</h6>
+                    <h6><b>Top Geometry</b>&nbsp {{monolith["top_geometry"]}}</h6>
+                    <h6><b>Construction</b>&nbsp {{monolith["construction"]}}</h6>
+                    <h6><b>Text Symbols</b>&nbsp {{monolith["text_symbols"]}}</h6>
                     <hr>
-                    <h6><b>Lattitude</b>&nbsp """+str(lattitude)+"""</h6>
-                    <h6><b>Longitude</b>&nbsp """+str(longitude)+"""</h6>
-                    <h6><b>Accuracy</b>&nbsp """+str(accuracy)+"""</h6>
+                    <h6><b>Lattitude</b>&nbsp {{monolith["lattitude"]}}</h6>
+                    <h6><b>Longitude</b>&nbsp {{monolith["longitude"]}}</h6>
+                    <h6><b>Accuracy</b>&nbsp {{monolith["accuracy"]}}</h6>
                     <hr>
-                    <h6><b>URL</b>&nbsp """+str(monolithshorturl)+"""</h6>
+                    <h6><b>URL</b>&nbsp {{monolith["monolithshorturl"]}}</h6>
 
                 </div>
             </div>
@@ -145,16 +146,18 @@
         <br>
         
         <h5>Body</h5>
-        <p>"""+str(body)+"""</p>
+        <p>{{monolith["body"]}}</p>
 
 
         <h5>Notes</h5>
-        <p><i>"""+str(notes)+"""</i></p>
+        <p><i>{{monolith["notes"]}}</i></p>
 
 
         <h5>Articles</h5>
         <p>
-            """+str(' <br> '.join(articles))+"""
+        {{for article in monolith["articles"]:}}
+          {{monolith["articles"]}}<br>
+        {{endfor}}
         </p>
 
         <h5>Map</h5>
@@ -164,17 +167,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <img width=100% style="object-fit:contain;margin-bottom: 10px;" src="https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s-l+000("""+str(longitude)+""","""+str(lattitude)+""")/"""+str(longitude)+""","""+str(lattitude)+""",3/1000x600?access_token=pk.eyJ1IjoiZHlsYW5rMTIzIiwiYSI6ImNrajUwMm55NzV0NWwyc2xiNzk0OHFjdXoifQ.cIzWvi9HlI1YfhpY24KbTA" >
+                    <img width=100% style="object-fit:contain;margin-bottom: 10px;" src="https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s-l+000({{monolith["longitude"]}},{{monolith["lattitude"]}})/{{monolith["longitude"]}},{{monolith["lattitude"]}},3/1000x600?access_token=pk.eyJ1IjoiZHlsYW5rMTIzIiwiYSI6ImNrajUwMm55NzV0NWwyc2xiNzk0OHFjdXoifQ.cIzWvi9HlI1YfhpY24KbTA" >
                 </div>
                 <div class="col-4">
                     <p>Geohack:</p>
-                    <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data="""+shortgeohack+"""&size=200x200">
+                    <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data={{monolith["shortgeohack"]}}&size=200x200">
                     <hr>
                     <p>Monolith Tracker:</p>
-                    <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data="""+monolithshorturlqr+"""&size=200x200">
+                    <img width="90px" src="http://api.qrserver.com/v1/create-qr-code/?data={{monolith["monolithshorturlqr"]}}&size=200x200">
                 </div>
             </div>
         </div>
     </div>
+    {% endfor %}
 <p style="page-break-before: always">
 </body>
