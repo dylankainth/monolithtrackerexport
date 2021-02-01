@@ -218,4 +218,4 @@ def index():
     return(render_template('output.html',content=content,lendata=lendata, timestamp=timestamp))
 
 
-app.run(debug=True, host='0.0.0.0')
+app.run(port=5000, debug=True, host='0.0.0.0')
