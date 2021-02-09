@@ -25,3 +25,6 @@ Alternatively, using python;
 ## Usage
 1. Simply open `http://localhost:5000` to load the output page
 2. To regenerate open `http://localhost:5000/regen`
+
+## Examples
+Find an example [here](http://198.27.77.70:5000/)
